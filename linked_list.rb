@@ -44,12 +44,25 @@ class LinkedList
     current = current.next_node until current.next_node.next_node.nil?
     last = current.next_node
     current.next_node = nil
+    @size -= 1
     last.data
   end
 
-  def contains?; end
+  def contains?(data)
+    current = @head
+    current = current.next_node until current.nil? || current.data == data
+    current.nil? ? false : true
+  end
 
-  def find(data); end
+  def find(data)
+    current = @head
+    current_index = 0
+    while !current.nil? && current.data != data
+      current = current.next_node
+      current_index += 1
+    end
+    current.nil? ? 'nil' : current_index
+  end
 
   def to_s
     current = @head
@@ -82,3 +95,9 @@ puts "Index 4: #{list.at(4)}"
 
 puts "Pop: #{list.pop}"
 list.to_s
+
+puts "Contains 3?: #{list.contains?(3)}"
+puts "Contains 7?: #{list.contains?(7)}"
+
+puts "Find 3: #{list.find(3)}"
+puts "Find 7: #{list.find(7)}"
