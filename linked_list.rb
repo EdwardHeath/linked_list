@@ -72,10 +72,42 @@ class LinkedList
     end
     puts 'nil'
   end
+
+  def insert_at(data, index)
+    return nil if index > @size
+    return prepend(data) if index.zero?
+
+    current = @head
+    last = Node.new
+    index.times do
+      last = current
+      current = current.next_node
+    end
+    add = Node.new(data)
+    last.next_node = add
+    add.next_node = current
+    @size += 1
+  end
+
+  def remove_at(index)
+    return nil if index > @size
+
+    current = @head
+    last = Node.new
+    index.times do
+      last = current
+      current = current.next_node
+    end
+    last.next_node = current.next_node
+    current.next_node = nil
+    @size -= 1
+  end
 end
 
 list = LinkedList.new
 
+# Tests
+system "clear"
 list.prepend(7) # ( 7 ) -> nil
 list.prepend(8) # ( 8 ) -> ( 7 ) -> nil
 list.to_s
@@ -96,8 +128,16 @@ puts "Index 4: #{list.at(4)}"
 puts "Pop: #{list.pop}"
 list.to_s
 
-puts "Contains 3?: #{list.contains?(3)}"
-puts "Contains 7?: #{list.contains?(7)}"
+puts "Contains 3? #{list.contains?(3)}"
+puts "Contains 7? #{list.contains?(7)}"
 
 puts "Find 3: #{list.find(3)}"
 puts "Find 7: #{list.find(7)}"
+
+list.insert_at(4, 0) # ( 4 ) -> ( 8 ) -> ( 7 ) -> ( 9 ) -> nil
+list.insert_at(5, 3) # ( 4 ) -> ( 8 ) -> ( 7 ) -> ( 5 ) -> ( 9 ) -> nil
+list.to_s
+
+list.remove_at(4) # ( 4 ) -> ( 8 ) -> ( 7 ) -> ( 5 ) -> nil
+list.remove_at(1) # ( 4 ) -> ( 7 ) -> ( 5 ) -> nil
+list.to_s

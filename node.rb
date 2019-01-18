@@ -1,6 +1,6 @@
 # Node
 class Node
-  def initialize(data)
+  def initialize(data = 0)
     @data = data
     @next_node = nil
   end
